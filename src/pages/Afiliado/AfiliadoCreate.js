@@ -66,7 +66,7 @@ const AfiliadoCreate = props => {
     >
       <div style={{ margin: '24px 24px 0' }}>
         <Card bordered={false}>
-          <Form hideRequiredMark style={{ marginTop: 8 }}>
+          <Form style={{ marginTop: 8 }}>
             <FormItem {...formItemLayout} label={fieldLabels.nombre}>
               {getFieldDecorator('nombre', fieldRequiredConfig)(
                 <Input placeholder="Nombre completo del Afiliado" />
