@@ -12,6 +12,7 @@ import {
   Upload,
   Icon,
   Button,
+  Checkbox,
 } from 'antd';
 import PageHeader from './../../components/organisms/PageHeader';
 
@@ -19,6 +20,9 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 const RadioGroup = Radio.Group;
 const RadioButton = Radio.Button;
+const CheckboxGroup = Checkbox.Group;
+const { TextArea } = Input;
+const Search = Input.Search;
 
 const fieldLabels = {
   nombre: 'Nombre',
@@ -31,7 +35,20 @@ const fieldLabels = {
   sexo: 'Sexo',
   semanas: 'Semanas Cotizadas Extranjero',
   actanacimiento: 'Acta de Nacimiento',
+  email: 'E-mail',
+  password: 'Contraseña',
+  opciones: 'Opciones',
+  observaciones: 'Observaciones',
+  seleccionar: 'Seleccionar',
+  importe: 'Importe',
+  monto: 'Monto',
 };
+
+const options = [
+  { label: 'Apple', value: 'Apple' },
+  { label: 'Pear', value: 'Pear' },
+  { label: 'Orange', value: 'Orange' },
+];
 
 const formItemLayout = {
   labelCol: {
@@ -57,7 +74,26 @@ const fieldRequiredConfig = {
 };
 
 const AfiliadoCreate = props => {
-  const { getFieldDecorator } = props.form;
+  const { getFieldDecorator, isFieldTouched, getFieldError, getFieldsError } = props.form;
+
+  const nombreError = isFieldTouched('nombre') && getFieldError('nombre');
+
+  const componentDidMount = () => {
+    props.form.validateFields();
+  };
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    props.form.validateFields((err, values) => {
+      if (!err) {
+        console.log('Received values of form: ', values);
+      }
+    });
+  };
+
+  const hasErrors = fieldsError => {
+    return Object.keys(fieldsError).some(field => fieldsError[field]);
+  };
 
   return (
     <PageHeader
@@ -66,14 +102,14 @@ const AfiliadoCreate = props => {
     >
       <div style={{ margin: '24px 24px 0' }}>
         <Card bordered={false}>
-          <Form style={{ marginTop: 8 }}>
-            <FormItem {...formItemLayout} label={fieldLabels.nombre}>
+          <Form style={{ marginTop: 8 }} onSubmit={handleSubmit}>
+            <FormItem {...formItemLayout} label={fieldLabels.nombre} hasFeedback>
               {getFieldDecorator('nombre', fieldRequiredConfig)(
                 <Input placeholder="Nombre completo del Afiliado" />
               )}
             </FormItem>
 
-            <FormItem {...formItemLayout} label={fieldLabels.fechaAfiliacion}>
+            <FormItem {...formItemLayout} label={fieldLabels.fechaAfiliacion} hasFeedback>
               {getFieldDecorator('fechaAfiliacion', fieldRequiredConfig)(<DatePicker />)}
             </FormItem>
 
@@ -92,7 +128,7 @@ const AfiliadoCreate = props => {
               )}
             </FormItem>
 
-            <FormItem {...formItemLayout} label={fieldLabels.tipospension}>
+            <FormItem {...formItemLayout} label={fieldLabels.tipospension} hasFeedback>
               {getFieldDecorator('tipospension', fieldRequiredConfig)(
                 <Select mode="multiple" placeholder="Seleccionar Pensiones">
                   <Option value="ipp">Incapacidad Permanente Parcial</Option>
@@ -108,7 +144,10 @@ const AfiliadoCreate = props => {
             </FormItem>
 
             <FormItem {...formItemLayout} label={fieldLabels.supervivencia}>
-              {getFieldDecorator('supervivencia', { valuePropName: 'checked' })(<Switch />)}
+              {getFieldDecorator('supervivencia', {
+                valuePropName: 'checked',
+                initialValue: false,
+              })(<Switch />)}
             </FormItem>
 
             <FormItem {...formItemLayout} label={fieldLabels.semanas}>
@@ -133,6 +172,7 @@ const AfiliadoCreate = props => {
               {...formItemLayout}
               label={fieldLabels.actanacimiento}
               extra="Acta de Nacimiento Certificada"
+              hasFeedback
             >
               {getFieldDecorator('actanacimiento', {
                 valuePropName: 'fileList',
@@ -146,10 +186,75 @@ const AfiliadoCreate = props => {
               )}
             </FormItem>
 
+            <FormItem {...formItemLayout} label={fieldLabels.email} hasFeedback>
+              {getFieldDecorator('email', {
+                rules: [
+                  {
+                    type: 'email',
+                    message: 'No se ingresó un E-mail válido.',
+                  },
+                  {
+                    required: true,
+                    message: 'Ingresa el correo electrónico',
+                  },
+                ],
+              })(<Input />)}
+            </FormItem>
+
+            <FormItem {...formItemLayout} label={fieldLabels.password} hasFeedback>
+              {getFieldDecorator('password', fieldRequiredConfig)(<Input type="password" />)}
+            </FormItem>
+
+            <FormItem {...formItemLayout} label={fieldLabels.opciones}>
+              {getFieldDecorator('opciones', fieldRequiredConfig)(
+                <CheckboxGroup options={options} defaultValue={['Pear']} />
+              )}
+            </FormItem>
+
+            <FormItem {...formItemLayout} label={fieldLabels.observaciones}>
+              {getFieldDecorator('observaciones', fieldRequiredConfig)(
+                <TextArea placeholder="Ponga aquí sus observaciones" rows={4} />
+              )}
+            </FormItem>
+
+            <FormItem {...formItemLayout} label={fieldLabels.seleccionar}>
+              {getFieldDecorator('seleccionar', fieldRequiredConfig)(
+                <Search placeholder="input search text" onSearch={value => console.log(value)} />
+              )}
+            </FormItem>
+
+            <FormItem {...formItemLayout} label={fieldLabels.importe}>
+              {getFieldDecorator('importe', fieldRequiredConfig)(
+                <Input addonBefore={<span>$</span>} defaultValue="800" />
+              )}
+            </FormItem>
+
+            <FormItem {...formItemLayout} label={fieldLabels.monto}>
+              {getFieldDecorator('monto', fieldRequiredConfig)(
+                <InputNumber
+                  defaultValue={1000}
+                  formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                  parser={value => value.replace(/\$\s?|(,*)/g, '')}
+                  min={0}
+                  max={100}
+                  style={{ width: 200 }}
+                />
+              )}
+            </FormItem>
+
             <FormItem wrapperCol={{ span: 12, offset: 5 }}>
-              <Button type="primary" htmlType="submit">
+              <Button
+                type="primary"
+                htmlType="submit"
+                icon="save"
+                disabled={hasErrors(getFieldsError())}
+              >
                 Enviar
               </Button>
+              <a style={{ marginLeft: 8, fontSize: 14 }}>
+                <Icon type="arrow-left" />
+                Regresar
+              </a>
             </FormItem>
           </Form>
         </Card>
