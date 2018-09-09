@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styles from './../index.less';
-import { Table, Input, Button, Icon, Card } from 'antd';
+import { Table, Input, Button, Icon, Card, Divider } from 'antd';
 import PageHeader from './../../components/organisms/PageHeader';
 
 const data = [
@@ -117,6 +117,20 @@ class AfiliadoSearch extends Component {
           },
         ],
         onFilter: (value, record) => record.address.indexOf(value) === 0,
+      },
+      {
+        title: 'Acción',
+        dataIndex: '',
+        key: 'x',
+        render: () => {
+          return (
+            <span>
+              <a href="javascript:;">Editar</a>
+              <Divider type="vertical" />
+              <a href="javascript:;">Borrar</a>
+            </span>
+          );
+        },
       },
     ];
     return (
