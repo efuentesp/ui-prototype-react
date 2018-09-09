@@ -1,7 +1,18 @@
 import React, { Component } from 'react';
 import styles from './../index.less';
-import { Table, Input, Button, Icon, Card, Divider } from 'antd';
+import { Table, Input, Button, Icon, Card, Divider, Menu, Dropdown } from 'antd';
 import PageHeader from './../../components/organisms/PageHeader';
+
+const menu = (
+  <Menu>
+    <Menu.Item>
+      Action 1
+    </Menu.Item>
+    <Menu.Item>
+      Action 2
+    </Menu.Item>
+  </Menu>
+);
 
 const data = [
   {
@@ -9,24 +20,36 @@ const data = [
     name: 'John Brown',
     age: 32,
     address: 'New York No. 1 Lake Park',
+    name1: 'John Brown',
+    age1: 32,
+    address1: 'New York No. 1 Lake Park',
   },
   {
     key: '2',
     name: 'Joe Black',
     age: 42,
     address: 'London No. 1 Lake Park',
+    name1: 'Joe Black',
+    age1: 42,
+    address1: 'London No. 1 Lake Park',
   },
   {
     key: '3',
     name: 'Jim Green',
     age: 32,
     address: 'Sidney No. 1 Lake Park',
+    name1: 'Jim Green',
+    age1: 32,
+    address1: 'Sidney No. 1 Lake Park',
   },
   {
     key: '4',
     name: 'Jim Red',
     age: 32,
     address: 'London No. 2 Lake Park',
+    name1: 'Jim Red',
+    age1: 32,
+    address1: 'London No. 2 Lake Park',
   },
 ];
 
@@ -119,15 +142,52 @@ class AfiliadoSearch extends Component {
         onFilter: (value, record) => record.address.indexOf(value) === 0,
       },
       {
+        title: 'Name',
+        dataIndex: 'name1',
+        key: 'name1',
+      },
+      {
+        title: 'Age1',
+        dataIndex: 'age1',
+        key: 'age1',
+      },
+      {
+        title: 'Address1',
+        dataIndex: 'address1',
+        key: 'address1',
+      },
+      {
+        title: 'Address2',
+        dataIndex: 'address1',
+        key: 'address1',
+      },
+      {
+        title: 'Address3',
+        dataIndex: 'address1',
+        key: 'address1',
+      },
+      {
+        title: 'Address4',
+        dataIndex: 'address1',
+        key: 'address1',
+      },
+      {
         title: 'Acción',
         dataIndex: '',
-        key: 'x',
+        key: 'operation',
+        fixed: 'right',
         render: () => {
           return (
             <span>
-              <a href="javascript:;">Editar</a>
+              <a href="javascript:;"><Icon type="edit" /></a>
               <Divider type="vertical" />
-              <a href="javascript:;">Borrar</a>
+              <a href="javascript:;"><Icon type="delete" /></a>
+              <Divider type="vertical" />
+              <Dropdown overlay={menu}>
+              <a href="javascript:;">
+                Más acciones<Icon type="down" />
+              </a>
+            </Dropdown>
             </span>
           );
         },
@@ -137,7 +197,14 @@ class AfiliadoSearch extends Component {
       <PageHeader title="Buscar Afiliado" content="Busqueda de Afiliados con ayuda de filtros.">
         <div style={{ margin: '24px 24px 0' }}>
           <Card bordered={false}>
-            <Table columns={columns} dataSource={data} />
+
+            <Table columns={columns}
+              dataSource={data}
+              scroll={{ x: 1600 }}
+              title={() => <Button type="primary" style={{ marginBottom: 16 }}>
+              <Icon type="plus" />
+            </Button>}
+            />
           </Card>
         </div>
       </PageHeader>
