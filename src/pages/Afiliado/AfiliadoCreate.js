@@ -13,8 +13,10 @@ import {
   Icon,
   Button,
   Checkbox,
+  BackTop
 } from 'antd';
 import PageHeader from './../../components/organisms/PageHeader';
+import { Link } from 'react-router-dom'
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -100,6 +102,7 @@ const AfiliadoCreate = props => {
       title="Crear Afiliado"
       content="Forma para registrar el registro de un nuevo Afiliado."
     >
+      <BackTop />
       <div style={{ margin: '24px 24px 0' }}>
         <Card bordered={false}>
           <Form style={{ marginTop: 8 }} onSubmit={handleSubmit}>
@@ -252,8 +255,10 @@ const AfiliadoCreate = props => {
                 Enviar
               </Button>
               <a style={{ marginLeft: 8, fontSize: 14 }}>
-                <Icon type="arrow-left" />
-                Regresar
+                <Link to="/afiliado-search">
+                  <Icon type="arrow-left" />
+                  Regresar
+                </Link>
               </a>
             </FormItem>
           </Form>

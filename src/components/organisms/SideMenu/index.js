@@ -30,22 +30,14 @@ const SideMenu = props => {
             </span>
           </Link>
         </Menu.Item>
-        <SubMenu
-          key="sub1"
-          title={
+        <Menu.Item key="2">
+          <Link to="/afiliado-search">
             <span>
               <Icon type="user" />
               <span>Afiliado</span>
             </span>
-          }
-        >
-          <Menu.Item key="3">
-            <Link to="/afiliado-search">Buscar</Link>
-          </Menu.Item>
-          <Menu.Item key="4">
-            <Link to="/afiliado-create">Agregar</Link>
-          </Menu.Item>
-        </SubMenu>
+          </Link>
+        </Menu.Item>
       </Menu>
     </Sider>
   );

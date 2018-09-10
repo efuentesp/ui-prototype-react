@@ -1,15 +1,16 @@
-import React, { Component } from 'react';
-import styles from './../index.less';
-import { Table, Input, Button, Icon, Card, Divider, Menu, Dropdown } from 'antd';
-import PageHeader from './../../components/organisms/PageHeader';
+import React, { Component } from 'react'
+import styles from './../index.less'
+import { Table, Input, Button, Icon, Card, Divider, Menu, Dropdown, BackTop } from 'antd'
+import PageHeader from './../../components/organisms/PageHeader'
+import { Link } from 'react-router-dom'
 
 const menu = (
   <Menu>
     <Menu.Item>
-      Action 1
+      <Icon type="thunderbolt" /> Action 1
     </Menu.Item>
     <Menu.Item>
-      Action 2
+      <Icon type="thunderbolt" /> Action 2
     </Menu.Item>
   </Menu>
 );
@@ -179,15 +180,15 @@ class AfiliadoSearch extends Component {
         render: () => {
           return (
             <span>
-              <a href="javascript:;"><Icon type="edit" /></a>
+              <Dropdown overlay={menu} trigger={['click']}>
+                <Button type="primary" shape="circle" ghost>
+                  <Icon type="ellipsis" />
+                </Button>
+              </Dropdown>
               <Divider type="vertical" />
-              <a href="javascript:;"><Icon type="delete" /></a>
+              <Button type="primary" shape="circle" ghost><Icon type="edit" /></Button>
               <Divider type="vertical" />
-              <Dropdown overlay={menu}>
-              <a href="javascript:;">
-                Más acciones<Icon type="down" />
-              </a>
-            </Dropdown>
+              <Button type="primary" shape="circle" ghost><Icon type="delete" /></Button>
             </span>
           );
         },
@@ -195,14 +196,17 @@ class AfiliadoSearch extends Component {
     ];
     return (
       <PageHeader title="Buscar Afiliado" content="Busqueda de Afiliados con ayuda de filtros.">
+        <BackTop />
         <div style={{ margin: '24px 24px 0' }}>
           <Card bordered={false}>
 
             <Table columns={columns}
               dataSource={data}
               scroll={{ x: 1600 }}
-              title={() => <Button type="primary" style={{ marginBottom: 16 }}>
-              <Icon type="plus" />
+              title={() => <Button type="primary" shape="circle" size="large" >
+              <Link to="/afiliado-create">
+                <Icon type="plus" />
+              </Link>
             </Button>}
             />
           </Card>
